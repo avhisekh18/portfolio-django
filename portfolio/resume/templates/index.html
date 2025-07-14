@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- All your sections like Home, About, Skills, Projects go here -->
+<section class="main py-0">
+  <div class="container py-5">
+    <div class="row py-5 align-items-center">
+      <div class="col-lg-6">
+        <h3><small>Hello, I am </small><br>Avhisekh Dhungana</h3>
+        <h6 class="pt-3">Backend Developer</h6>
+        {% comment %} <input type="button" value="My Work" class="bt1 mt-5">
+        <input type="button" value="Hire Me" class="bt2 mt-5"> {% endcomment %}
+      </div>
+     <div class="col-lg-6 text-center">
+        <img src="{% static 'images/profile.webp' %}" alt="Profile" class="img-fluid rounded-circle profile-img">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about py-5">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-7">
+        <h1>About Me</h1>
+        <p>Django Backend Developer</p>
+        <p class="py-3">
+          Hi, I am <span class="text">Avhisekh Dhungana</span>, a passionate and detail-oriented developer with a strong focus on backend development using Python and Django. I
+                        enjoy building dynamic, user-friendly web applications and continuously strive to learn new
+                        technologies. I’m dedicated to creating impactful digital experiences.</p>
+
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="skills-section py-5 bg-light">
+  <div class="container">
+    <h2 class="mb-4">My Skills</h2>
+    <div class="skills">
+      {% for skill in skills %}
+      <div class="skill mb-3">
+        <label>{{ skill.name }} — {{ skill.level }}%</label>
+        <div class="skill-bar bg-secondary rounded-pill">
+          <div class="skill-level bg-danger rounded-pill" style="width: {{ skill.level }}%; height: 20px;"></div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No skills added yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="projects-section py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">My Projects</h2>
+    <div class="row g-4">
+      {% for project in projects %}
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ project.title }}</h5>
+            <p class="card-text">{{ project.description|truncatewords:25 }}</p>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-center">No projects added yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="contact-section py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Contact Me</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <form method="POST" class="contact-form p-4 shadow rounded bg-light">
+          {% csrf_token %}
+          <!-- You can use form.as_p or keep custom fields -->
+          {{ form.as_p }}
+          
+          <input type="text" name="name" class="form-control mb-3" placeholder="Your Name" required>
+          <input type="email" name="email" class="form-control mb-3" placeholder="Your Email" required>
+          <textarea name="message" class="form-control mb-3" rows="5" placeholder="Your Message" required></textarea>
+          
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary px-4">Send</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

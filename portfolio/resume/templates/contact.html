@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<section class="contact-section py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Contact Me</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <form method="POST" class="contact-form p-4 shadow rounded bg-light">
+          {% csrf_token %}
+          <!-- You can use form.as_p or keep custom fields -->
+          {{ form.as_p }}
+          
+          {% comment %} <input type="text" name="name" class="form-control mb-3" placeholder="Your Name" required>
+          <input type="email" name="email" class="form-control mb-3" placeholder="Your Email" required>
+          <textarea name="message" class="form-control mb-3" rows="5" placeholder="Your Message" required></textarea> {% endcomment %}
+          
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary px-4">Send</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
