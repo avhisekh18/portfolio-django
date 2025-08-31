@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,12 +21,33 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%^jyeu=7=fa#j_y@rphhire7bz-0gg*9gllh46)mbmbh%_^l94'
+SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-change-me")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = os.getenv("DEBUG", "True").lower() == "true"
+
+
+if DEBUG:
+    ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+else:
+    ALLOWED_HOSTS = [
+        "avhisekhdhungana.com.np",
+        "www.avhisekhdhungana.com.np",
+        os.getenv("RENDER_EXTERNAL_HOSTNAME", ""),
+    ]
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS = [
+        "http://127.0.0.1:8000",
+        "http://localhost:8000",
+    ]
+else:
+    CSRF_TRUSTED_ORIGINS = [
+        "https://*.onrender.com",
+        "https://avhisekhdhungana.com.np",
+        "https://www.avhisekhdhungana.com.np",
+    ]
+
 
 
 # Application definition
@@ -41,6 +63,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -74,12 +98,18 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if os.getenv("DATABASE_URL"):
+    DATABASES = {
+        "default": dj_database_url.config(conn_max_age=600, ssl_require=True)
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+
 
 
 # Password validation
@@ -117,6 +147,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 

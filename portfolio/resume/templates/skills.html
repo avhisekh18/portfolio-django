@@ -2,19 +2,19 @@
 {% block title %}Skills{% endblock %}
 
 {% block content %}
-<section class="skills-section py-5 bg-light">
+<section class="skills-section py-5">
   <div class="container">
     <h2 class="mb-4">My Skills</h2>
     <div class="skills">
       {% for skill in skills %}
-      <div class="skill mb-3">
-        <label>{{ skill.name }} — {{ skill.level }}%</label>
-        <div class="skill-bar bg-secondary rounded-pill">
-          <div class="skill-level bg-danger rounded-pill" style="width: {{ skill.level }}%; height: 20px;"></div>
+        <div class="skill mb-3">
+          <label>{{ skill.name }} — {{ skill.level }}%</label>
+          <div class="skill-bar">
+            <div class="skill-level" style="width: {{ skill.level }}%;"></div>
+          </div>
         </div>
-      </div>
       {% empty %}
-      <p>No skills added yet.</p>
+        <p>No skills added yet.</p>
       {% endfor %}
     </div>
   </div>

@@ -8,8 +8,8 @@
     <div class="row g-4">
       {% for project in projects %}
       <div class="col-md-4">
-        <div class="card h-100 shadow-sm">
-          <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
+        <div class="card h-100">
+          <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}" />
           <div class="card-body">
             <h5 class="card-title">{{ project.title }}</h5>
             <p class="card-text">{{ project.description|truncatewords:25 }}</p>
@@ -17,7 +17,7 @@
         </div>
       </div>
       {% empty %}
-      <p class="text-center">No projects added yet.</p>
+        <p class="text-center">No projects added yet.</p>
       {% endfor %}
     </div>
   </div>

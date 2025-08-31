@@ -1,17 +1,14 @@
-
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<section class="main py-0">
+<section class="main py-5">
   <div class="container py-5">
-    <div class="row py-5 align-items-center">
+    <div class="row align-items-center g-5">
       <div class="col-lg-6">
-        <h3><small>Hello, I am </small><br>Avhisekh Dhungana</h3>
+        <h3><small class="text-muted">Hello, I am</small><br>Avhisekh Dhungana</h3>
         <h6 class="pt-3">Backend Developer</h6>
-        {% comment %} <input type="button" value="My Work" class="bt1 mt-5">
-        <input type="button" value="Hire Me" class="bt2 mt-5"> {% endcomment %}
       </div>
       <div class="col-lg-6 text-center">
         <img src="{% static 'images/profile.webp' %}" alt="Profile" class="img-fluid rounded-circle profile-img">
