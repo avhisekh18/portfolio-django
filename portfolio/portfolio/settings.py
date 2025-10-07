@@ -28,17 +28,25 @@ SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-change-me")
 DEBUG = os.getenv("DEBUG", "True").lower() == "true"
 
 
-DEBUG = False
-ALLOWED_HOSTS = [
-    "avhisekhdhungana.com.np",
-    "www.avhisekhdhungana.com.np",
-    os.getenv("RENDER_EXTERNAL_HOSTNAME", ""),
-]
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.onrender.com",
-    "https://avhisekhdhungana.com.np",
-    "https://www.avhisekhdhungana.com.np",
-]
+if DEBUG:
+    ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+else:
+    ALLOWED_HOSTS = [
+        "avhisekhdhungana.com.np",
+        "www.avhisekhdhungana.com.np",
+        os.getenv("RENDER_EXTERNAL_HOSTNAME", ""),
+    ]
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS = [
+        "http://127.0.0.1:8000",
+        "http://localhost:8000",
+    ]
+else:
+    CSRF_TRUSTED_ORIGINS = [
+        "https://*.onrender.com",
+        "https://avhisekhdhungana.com.np",
+        "https://www.avhisekhdhungana.com.np",
+    ]
 
 
 
