@@ -98,18 +98,22 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if os.getenv("DATABASE_URL"):
+USE_SQLITE = os.getenv("USE_SQLITE", "0") == "1"
+
+if os.getenv("DATABASE_URL") and not USE_SQLITE:
     DATABASES = {
         "default": dj_database_url.config(conn_max_age=600, ssl_require=True)
     }
 else:
+    # Keep the SQLite db in a subfolder to avoid clutter
+    DB_DIR = BASE_DIR / "data"
+    DB_DIR.mkdir(exist_ok=True)
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
+            "NAME": DB_DIR / "db.sqlite3",
         }
     }
-
 
 
 # Password validation
