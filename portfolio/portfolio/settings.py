@@ -100,21 +100,26 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 
 USE_SQLITE = os.getenv("USE_SQLITE", "0") == "1"
 
-if os.getenv("DATABASE_URL") and not USE_SQLITE:
-    DATABASES = {
-        "default": dj_database_url.config(conn_max_age=600, ssl_require=True)
-    }
-else:
-    # Keep the SQLite db in a subfolder to avoid clutter
-    DB_DIR = BASE_DIR / "data"
-    DB_DIR.mkdir(exist_ok=True)
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": DB_DIR / "db.sqlite3",
-        }
+raw_db_url = (os.getenv("DATABASE_URL") or "").strip()
+
+def sqlite_cfg():
+    db_dir = BASE_DIR / "data"
+    db_dir.mkdir(exist_ok=True)
+    return {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": db_dir / "db.sqlite3",
     }
 
+if raw_db_url and not USE_SQLITE:
+    try:
+        DATABASES = {
+            "default": dj_database_url.parse(raw_db_url, conn_max_age=600, ssl_require=True)
+        }
+    except Exception:
+        # Invalid DATABASE_URL -> fall back to SQLite instead of crashing
+        DATABASES = {"default": sqlite_cfg()}
+else:
+    DATABASES = {"default": sqlite_cfg()}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
