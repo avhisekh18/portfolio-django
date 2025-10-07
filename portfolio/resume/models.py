@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.exceptions import ValidationError
 # Create your models here.
 class Project(models.Model):
     title= models.CharField(max_length=50)
@@ -11,11 +11,26 @@ class Project(models.Model):
     
 
 class Skill(models.Model):
-    name= models.CharField(max_length=30)
-    level = models.PositiveIntegerField(default=80)
+    TECH = "tech"
+    PROF = "prof"
+    CATEGORY_CHOICES = [(TECH, "Technical"), (PROF, "Professional")]
+
+    name      = models.CharField(max_length=100)
+    level     = models.PositiveIntegerField(help_text="0–100")
+    category  = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default=TECH)
+    order     = models.PositiveIntegerField(default=0, help_text="Smaller shows first")
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["category", "order", "-level", "name"]
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.level}%)"
+
+    def clean(self):
+        if self.level > 100:
+            raise ValidationError({"level": "Level must be between 0 and 100."})
+    
 
 class Contact(models.Model):
     name = models.CharField(max_length=20)

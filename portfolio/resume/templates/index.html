@@ -35,7 +35,7 @@
 </section>
 
 <!-- Skills -->
-<section id="skills" class="skills-section py-5">
+{% comment %} <section id="skills" class="skills-section py-5">
   <div class="container">
     <h2 class="mb-4">My Skills</h2>
     <div class="skills">
@@ -51,6 +51,51 @@
       {% else %}
         <p>No skills added yet.</p>
       {% endif %}
+    </div>
+  </div>
+</section> {% endcomment %}
+<section class="skills-section py-5">
+  <div class="container">
+    <h2 class="section-title"><span>My</span> Skills</h2>
+
+    <div class="row g-5 align-items-start">
+      <!-- LEFT: Technical (bars) -->
+      <div class="col-lg-7">
+        <h4 class="mb-4 text-white-50">Technical Skills</h4>
+        {% for s in tech_skills %}
+          <div class="skill-row mb-3">
+            <div class="d-flex justify-content-between mb-1">
+              <span class="skill-name">{{ s.name }}</span>
+              <span class="skill-val">{{ s.level }}%</span>
+            </div>
+            <div class="skill-track">
+              <!-- Fallback width AND CSS variable -->
+              <div class="skill-fill" style="width: {{ s.level }}%; --w: {{ s.level }}%;"></div>
+            </div>
+          </div>
+        {% empty %}
+          <p class="text-muted">No technical skills added yet.</p>
+        {% endfor %}
+      </div>
+
+      <!-- RIGHT: Professional (circles) -->
+      <div class="col-lg-5">
+        <h4 class="mb-4 text-white-50">Professional Skills</h4>
+        <div class="row g-4">
+          {% for s in prof_skills %}
+            <div class="col-6">
+              <div class="radial-card">
+                <div class="radial" style="--val: {{ s.level }};">
+                  <span class="radial-num">{{ s.level }}%</span>
+                </div>
+                <div class="radial-label">{{ s.name }}</div>
+              </div>
+            </div>
+          {% empty %}
+            <p class="text-muted">No professional skills added yet.</p>
+          {% endfor %}
+        </div>
+      </div>
     </div>
   </div>
 </section>

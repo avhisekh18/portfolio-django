@@ -3,10 +3,15 @@ from .models import Project,Skill
 from .forms import ContactForm
 
 def index(request):
-    skills = Skill.objects.all()
-    projects = Project.objects.all()
-    return render(request, 'index.html',{'skills':skills, 'projects':projects})
+    tech_skills = Skill.objects.filter(category='tech', is_active=True).order_by('order', '-level')
+    prof_skills = Skill.objects.filter(category='prof', is_active=True).order_by('order', '-level')
+    projects = Project.objects.all()  # or filter(is_active=True)
 
+    return render(request, 'index.html', {
+        'tech_skills': tech_skills,
+        'prof_skills': prof_skills,
+        'projects': projects,
+    })
 
 def home(request):
     return render(request, 'home.html')
@@ -28,8 +33,12 @@ def contact(request):
         form=ContactForm()
     return render(request,'contact.html',{'form':form})
 
+
+
 def skills(request):
-    skills= Skill.objects.all()
-    return render(request,'skills.html',{'skills':skills})
-
-
+    tech_skills = Skill.objects.filter(category=Skill.TECH, is_active=True)
+    prof_skills = Skill.objects.filter(category=Skill.PROF, is_active=True)
+    return render(request, "skills.html", {
+        "tech_skills": tech_skills,
+        "prof_skills": prof_skills,
+    })

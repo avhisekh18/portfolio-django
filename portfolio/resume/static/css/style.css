@@ -239,35 +239,26 @@ section {
     color: #ff6b6b;
 }
 
-/* ========== Skills ========== */
-.skills-section {
-    background: var(--surface);
-}
+/* Scope everything to the skills section */
 
-.skill label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: .35rem;
-}
-
-.skill-bar {
-    width: 100%;
-    height: 20px;
-    background: #e9ecef;
-    border-radius: 999px;
+section.skills-section .skill-track {
+    height: 12px;
+    background: #222933;
+    border-radius: 20px;
     overflow: hidden;
 }
 
-[data-theme="dark"] .skill-bar {
-    background: #222734;
+section.skills-section .skill-fill {
+    height: 100%;
+    width: var(--w, 0%);
+    border-radius: 20px;
+    background: linear-gradient(90deg, #ff6166 0%, #ff4d4f 60%, #ff3033 100%);
+    box-shadow: 0 0 12px rgba(255, 77, 79, .35) inset;
+    display: block;
+    transition: width .8s ease;
 }
 
-.skill-level {
-    height: 100%;
-    background: #dc3545;
-    border-radius: 999px;
-    transition: width .6s ease;
-}
+
 
 /* ========== Projects ========== */
 .projects-section .card {
