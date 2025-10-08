@@ -16,46 +16,168 @@ a {
 }
 
 /* ========== Theme Variables ========== */
+/* --- Normalize theme variables --- */
 :root {
+    /* LIGHT defaults */
     --bg: #ffffff;
-    --text: #111111;
+    --fg: #111418;
+    /* main text */
+    --text: var(--fg);
+    /* alias for any old rules */
     --muted: #6c757d;
-
-    --accent: #e9146d;
-
+    --track: #e9edf3;
+    --inner: #ffffff;
+    --accent-1: #ff6166;
+    --accent-2: #ff4d4f;
+    --accent-3: #ff3033;
+    /* add these to your existing :root */
     --nav-bg: #ffffff;
-    --nav-link: #111111;
-
+    --nav-link: #111418;
+    --accent: #e9146d;
     --surface: #f8f9fa;
     --card-bg: #ffffff;
     --card-border: #dee2e6;
-
     --footer-bg: #111111;
-
     --radius: 14px;
     --shadow-sm: 0 0.25rem 0.75rem rgba(0, 0, 0, .08);
     --shadow-md: 0 0.75rem 1.5rem rgba(0, 0, 0, .12);
+
 }
 
+/* Auto dark */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #0e0e12;
+        --fg: #e9eef5;
+        --text: var(--fg);
+        --muted: #b8c0cc;
+        --track: #222933;
+        --inner: #0e0e12;
+        /* add inside BOTH dark blocks */
+        --nav-bg: #111318;
+        --nav-link: #e9eef5;
+        --accent: #e9146d;
+        --surface: #161922;
+        --card-bg: #171a22;
+        --card-border: #2a2f3a;
+        --footer-bg: #0b0d12;
+        --shadow-sm: 0 0.25rem 0.75rem rgba(0, 0, 0, .35);
+        --shadow-md: 0 0.75rem 1.5rem rgba(0, 0, 0, .45);
+
+    }
+}
+
+/* Manual dark toggle (if you use data-theme="dark") */
 [data-theme="dark"] {
-    --bg: #0f1115;
-    --text: #e9ecef;
-    --muted: #a1a7b3;
-
-    --accent: #e9146d;
-
+    --bg: #0e0e12;
+    --fg: #e9eef5;
+    --text: var(--fg);
+    --muted: #b8c0cc;
+    --track: #222933;
+    --inner: #0e0e12;
+    /* add inside BOTH dark blocks */
     --nav-bg: #111318;
-    --nav-link: #e9ecef;
-
+    --nav-link: #e9eef5;
+    --accent: #e9146d;
     --surface: #161922;
     --card-bg: #171a22;
     --card-border: #2a2f3a;
-
     --footer-bg: #0b0d12;
-
     --shadow-sm: 0 0.25rem 0.75rem rgba(0, 0, 0, .35);
     --shadow-md: 0 0.75rem 1.5rem rgba(0, 0, 0, .45);
+
 }
+
+/* --- Make sure technical labels show in dark --- */
+.skills-section .skill-row .skill-name,
+.skills-section .skill-row .skill-val {
+    color: var(--fg) !important;
+}
+
+/* Replace your current bar styles with this */
+section.skills-section .skill-track {
+    height: 12px;
+    background: var(--track);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+section.skills-section .skill-fill {
+    height: 100%;
+    width: var(--w, 0%);
+    border-radius: 20px;
+    background: linear-gradient(90deg, var(--accent-1) 0%, var(--accent-2) 60%, var(--accent-3) 100%);
+    box-shadow: 0 0 12px rgba(255, 77, 79, .35) inset;
+    display: block;
+    transition: width .8s ease;
+}
+
+/* ==== PROFESSIONAL SKILLS (RADIAL CIRCLES) ==== */
+.radial-card {
+    text-align: center;
+    color: var(--fg) !important;
+    /* readable in both themes */
+}
+
+.radial {
+    --val: 0;
+    /* expects inline --val: {{ s.level }}; */
+    --size: 100px;
+    --stroke: 8px;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background: conic-gradient(var(--accent-2) calc(var(--val) * 1%), var(--track) 0%);
+    display: grid;
+    place-items: center;
+    margin: 0 auto 10px;
+    position: relative;
+    box-shadow: inset 0 0 10px rgba(255, 77, 79, .35);
+    transition: background .6s ease;
+    border: 1px solid rgba(0, 0, 0, .06);
+    /* subtle edge so it doesn't disappear on white */
+}
+
+.radial::before {
+    content: '';
+    position: absolute;
+    width: calc(var(--size) - 2 * var(--stroke));
+    height: calc(var(--size) - 2 * var(--stroke));
+    border-radius: 50%;
+    background: var(--inner);
+}
+
+.radial-num {
+    position: relative;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--fg) !important;
+}
+
+.radial-label {
+    font-size: .9rem;
+    color: var(--muted) !important;
+}
+
+/* Ensure headings are readable in both themes */
+.skills-section .section-title,
+.skills-section h4 {
+    color: var(--fg) !important;
+}
+
+/* Bootstrap utility override just inside skills section */
+.skills-section .text-white,
+.skills-section .text-white-50 {
+    color: var(--muted) !important;
+}
+
+/* Also ensure the value/label text uses theme color */
+.skills-section .skill-row .skill-name,
+.skills-section .skill-row .skill-val {
+    color: var(--fg) !important;
+}
+
+
 
 /* Base */
 body {
@@ -304,13 +426,50 @@ section.skills-section .skill-fill {
 
 
 /* ========== Projects ========== */
-.projects-section .card {
-    background: var(--card-bg);
-    border-color: var(--card-border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    transition: transform .15s ease, box-shadow .15s ease;
+/* ==== Projects: force readable text in dark mode ==== */
+@media (prefers-color-scheme: dark) {
+
+    .projects-section h2,
+    .projects-section .card,
+    .projects-section .card-body,
+    .projects-section .card-title,
+    .projects-section .card-text {
+        color: var(--fg) !important;
+        background-color: var(--card-bg) !important;
+    }
+
+    .projects-section .card {
+        border-color: var(--card-border) !important;
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* if titles or links are anchors, make them visible too */
+    .projects-section .card a,
+    .projects-section .card-title a {
+        color: var(--fg) !important;
+    }
 }
+
+/* Also handle manual toggle case */
+[data-theme="dark"] .projects-section h2,
+[data-theme="dark"] .projects-section .card,
+[data-theme="dark"] .projects-section .card-body,
+[data-theme="dark"] .projects-section .card-title,
+[data-theme="dark"] .projects-section .card-text {
+    color: var(--fg) !important;
+    background-color: var(--card-bg) !important;
+}
+
+[data-theme="dark"] .projects-section .card {
+    border-color: var(--card-border) !important;
+    box-shadow: var(--shadow-sm);
+}
+
+[data-theme="dark"] .projects-section .card a,
+[data-theme="dark"] .projects-section .card-title a {
+    color: var(--fg) !important;
+}
+
 
 .projects-section .card-img-top {
     height: 200px;
