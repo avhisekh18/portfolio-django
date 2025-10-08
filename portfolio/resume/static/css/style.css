@@ -258,6 +258,49 @@ section.skills-section .skill-fill {
     transition: width .8s ease;
 }
 
+/* ==== PROFESSIONAL SKILLS (RADIAL CIRCLES) ==== */
+.radial-card {
+    text-align: center;
+    color: #fff;
+}
+
+.radial {
+    --size: 100px;
+    --stroke: 8px;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background: conic-gradient(#ff4d4f calc(var(--val) * 1%), #222933 0%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    position: relative;
+    box-shadow: 0 0 10px rgba(255, 77, 79, .35) inset;
+    transition: background 0.6s ease;
+}
+
+.radial::before {
+    content: '';
+    position: absolute;
+    width: calc(var(--size) - 2 * var(--stroke));
+    height: calc(var(--size) - 2 * var(--stroke));
+    border-radius: 50%;
+    background: #0e0e12;
+}
+
+.radial-num {
+    position: relative;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.radial-label {
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
 
 
 /* ========== Projects ========== */
